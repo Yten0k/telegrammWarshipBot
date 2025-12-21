@@ -10,10 +10,10 @@ public class FillShipsScenario implements Scenario {
     private Field fieldFirstPlayer = new Field();
     private Field fieldSecondPlayer = new Field();
 
-    private CallBack callBack;
+    private CallBack callBack=CallBack.Continue;
 
-    private PlayerMutex mutex = PlayerMutex.BOTH_MUTEX;
-    //public void PassMutex(PlayerMutex mutex){ this.mutex = mutex; }
+    //private PlayerMutex mutex = PlayerMutex.BOTH_MUTEX;
+    private PlayerOrder Order = new PlayerOrder(PlayerMutex.BOTH_MUTEX);
 
     private boolean FieldOnPicture = false;
 
@@ -25,7 +25,7 @@ public class FillShipsScenario implements Scenario {
     @Override
     public State Process(DrawField drawer, PlayerData playerData, int[] coordinate) {
 
-        if(this.mutex!=PlayerMutex.BOTH_MUTEX && this.mutex!=playerData.GetMutex())
+        if(!Order.MyOrder(playerData.GetMutex()))
             callBack = callBack.PassState(CallBack.ExceptionMutex);
         else {
             if(playerData.GetMutex() == PlayerMutex.PLAYER_ONE_MUTEX)
@@ -50,10 +50,10 @@ public class FillShipsScenario implements Scenario {
                     }
 
                     else
-                        this.mutex = PlayerMutex.PLAYER_TWO_MUTEX;
+                        Order.PassMutex(PlayerMutex.PLAYER_TWO_MUTEX);
                 }
                 else if(fieldSecondPlayer.ShipState == Ships.End)
-                    this.mutex = PlayerMutex.PLAYER_ONE_MUTEX;
+                    Order.PassMutex(PlayerMutex.PLAYER_ONE_MUTEX);
             }
         }
         if(!callBack.ExceptionCallBack)

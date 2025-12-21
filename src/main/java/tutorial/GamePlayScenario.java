@@ -15,7 +15,8 @@ public class GamePlayScenario implements Scenario{
     private GameField fieldSecondPlayer; //Поле игрока 1, где играет игрок 2
 
     private CallBack callBack = CallBack.Continue;
-    private PlayerMutex mutex = PlayerMutex.PLAYER_ONE_MUTEX;
+    //private PlayerMutex mutex = PlayerMutex.PLAYER_ONE_MUTEX;
+    private final PlayerOrder Order = new PlayerOrder(PlayerMutex.PLAYER_ONE_MUTEX, true);
 
     private boolean EndGame = false;
 
@@ -43,7 +44,7 @@ public class GamePlayScenario implements Scenario{
     @Override
     public State Process(DrawField drawer, PlayerData playerData, int[] coordinate) {
         callBack = CallBack.Pass;
-        if(this.mutex!=playerData.GetMutex()){
+        if(!this.Order.MyOrder(playerData.GetMutex())){
             callBack = callBack.PassState(CallBack.ExceptionMutex);
             return State.Playing;
         }
@@ -60,7 +61,7 @@ public class GamePlayScenario implements Scenario{
 
         int NumberOfHittenShip;
 
-        if(mutex == PlayerMutex.PLAYER_ONE_MUTEX){
+        if(Order.MyOrder(PlayerMutex.PLAYER_ONE_MUTEX)){
             callBack = fieldFirstPlayer.Hit(coordinate);
             NumberOfHittenShip = fieldFirstPlayer.Include(coordinate);
         }
@@ -69,20 +70,19 @@ public class GamePlayScenario implements Scenario{
             NumberOfHittenShip = fieldSecondPlayer.Include(coordinate);
         }
 
-        mutex=mutex.SWAP();
         if(callBack == CallBack.Continue){
-            drawer.DrawPlayerChangedField(mutex, coordinate, false);
+            drawer.DrawPlayerChangedField(Order.GetOrder().SWAP(), coordinate, false);
             playerData.gridPlayer[coordinate[0]][coordinate[1]]=1;
         }
         if(callBack == CallBack.Final){
             PrimitiveShip TargetShip;
-            if(mutex == PlayerMutex.PLAYER_TWO_MUTEX)
+            if(Order.MyOrder(PlayerMutex.PLAYER_ONE_MUTEX))
                 TargetShip = fieldFirstPlayer.GameFieldPlayer.get(NumberOfHittenShip);
             else
                 TargetShip = fieldSecondPlayer.GameFieldPlayer.get(NumberOfHittenShip);
 
             for(Coordinates coordinates : TargetShip.coordinates) {
-                drawer.DrawPlayerChangedField(mutex, coordinates.CoordinatesToArray(), true);
+                drawer.DrawPlayerChangedField(Order.GetOrder().SWAP(), coordinates.CoordinatesToArray(), true);
                 playerData.gridPlayer[coordinates.GetX()][coordinates.GetY()]=2;
             }
 
@@ -92,6 +92,8 @@ public class GamePlayScenario implements Scenario{
         }
         if(callBack == CallBack.Pass)
             playerData.gridPlayer[coordinate[0]][coordinate[1]]=-1;
+
+        Order.SwapOrder(callBack);
         return State.Playing;
     }
 
