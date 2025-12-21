@@ -6,8 +6,12 @@ public enum InterfaceLanguage {
             "Ты защищаешь", "Ты не в игре",
             "Такая игра уже существует", "Ещё не пришла твоя очередь",
             "Здесь нельзя разместить часть корабля",
-            "Здесь нельзя разместить корабль", "Неправильный ход", "Такой игры нет", "Неизвестная ошибка");
-    //EN;
+            "Здесь нельзя разместить корабль", "Неправильный ход", "Такой игры нет", "Неизвестная ошибка"),
+
+    EN("en","", "Share code game with your friend","All players ready. Create the field",
+               "Build first ship", "You are attacking", "You are defending", "You are not in the game",
+               "Such a game already exists", "It's not your turn yet", "You can't put a part of the ship here",
+               "You can't put a ship here", "Wrong move", "There is no such game", "Unknown error");
 
     public final String NAME_LANGUAGE;
     public final String RULES;
