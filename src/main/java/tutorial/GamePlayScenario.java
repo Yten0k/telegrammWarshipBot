@@ -93,7 +93,7 @@ public class GamePlayScenario implements Scenario{
         if(callBack == CallBack.Pass)
             playerData.gridPlayer[coordinate[0]][coordinate[1]]=-1;
 
-        Order.SwapOrder(callBack);
+        playerData.SaveOrder=Order.SwapOrder(callBack);
         return State.Playing;
     }
 

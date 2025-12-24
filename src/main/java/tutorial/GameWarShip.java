@@ -114,14 +114,27 @@ public class GameWarShip {
                 }
                 case Playing -> {
                     if(PhotoMessage!=null){
-                        PhotoMessage.setCaption(gameLanguage.GetTargetMessage(gameLanguage.AttackText));
-                        PhotoMessage.setChatId(GiveNegativePlayer(ChatUserID).GetID().toString());
-                        PhotoMessage.setReplyMarkup(buildKeyboard(GiveNegativePlayer(ChatUserID).GetID()));
+                        if(TempPlayer.SaveOrder){
+                            PhotoMessage.setCaption(gameLanguage.GetTargetMessage(gameLanguage.DefenceText));
+                            PhotoMessage.setChatId(GiveNegativePlayer(ChatUserID).GetID().toString());
+                            //PhotoMessage.setReplyMarkup(buildKeyboard(GiveNegativePlayer(ChatUserID).GetID()));
 
-                        EditCaptionNMarkup = new EditMessageCaption();
-                        EditCaptionNMarkup.setReplyMarkup(buildKeyboard(ChatUserID));
-                        EditCaptionNMarkup.setCaption(gameLanguage.GetTargetMessage(gameLanguage.DefenceText));
-                        EditCaptionNMarkup.setChatId(ChatUserID.toString());
+                            EditCaptionNMarkup = new EditMessageCaption();
+                            EditCaptionNMarkup.setReplyMarkup(buildKeyboard(ChatUserID));
+                            EditCaptionNMarkup.setCaption(gameLanguage.GetTargetMessage(gameLanguage.AttackText));
+                            EditCaptionNMarkup.setChatId(ChatUserID.toString());
+                        }
+                        else {
+                            PhotoMessage.setCaption(gameLanguage.GetTargetMessage(gameLanguage.AttackText));
+                            PhotoMessage.setChatId(GiveNegativePlayer(ChatUserID).GetID().toString());
+                            PhotoMessage.setReplyMarkup(buildKeyboard(GiveNegativePlayer(ChatUserID).GetID()));
+
+                            EditCaptionNMarkup = new EditMessageCaption();
+                            buildKeyboard(ChatUserID);
+                            //EditCaptionNMarkup.setReplyMarkup(buildKeyboard(ChatUserID));
+                            EditCaptionNMarkup.setCaption(gameLanguage.GetTargetMessage(gameLanguage.DefenceText));
+                            EditCaptionNMarkup.setChatId(ChatUserID.toString());
+                        }
                     }
                     else return CallBack.UnknownError;
                 }

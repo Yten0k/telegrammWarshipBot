@@ -24,7 +24,7 @@ public class Bot extends TelegramLongPollingBot {
     private String[] PullFirst = new String[]{
             "0 0", "0 1", "0 2", "0 3", "0 5", "0 6", "0 7", "2 0", "2 1", "4 0", "4 1", "4 3", "5 6", "7 0"};
     private String[] PullSecond = new String[]{
-            "0 0", "1 0", "2 0", "3 0", "0 3", "1 3", "2 3", "0 5", "1 5", "0 7", "1 7", "7 7", "5 5", "7 0"};
+            "0 0", "1 0", "2 0", "3 0", "0 3", "1 3", "2 3", "0 5", "1 5", "0 7", "1 7", "8 4", "5 5", "7 0"};
 
     private int LastMessage;
 

@@ -10,6 +10,7 @@ public class PlayerData {
     private final Long UserID;
     public ArrayList<PrimitiveShip> PlayerFleet = new ArrayList<>();
     public GameLanguage language;
+    public boolean SaveOrder = false;
 
     PlayerData(Long UserID, PlayerMutex mutex, GameLanguage language){
         this.UserID = UserID;

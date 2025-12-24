@@ -15,12 +15,12 @@ public class PlayerOrder {
     public boolean SwapOrder(CallBack callBack){
         if(Rule && callBack == CallBack.Pass){
             order = order.SWAP();
-            return true;
+            return false;
         } else if (!Rule) {
             order = order.SWAP();
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
     public PlayerMutex GetOrder(){ return order; }
 
